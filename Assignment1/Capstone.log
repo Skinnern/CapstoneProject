@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.3)  8 OCT 2018 13:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.3)  9 OCT 2018 12:19
 entering extended mode
-**./CS444HW2_Writeup.tex
-(CS444HW2_Writeup.tex
+**./Capstone.tex
+(Capstone.tex
 LaTeX2e <2017-04-15>
 Babel <3.18> and hyphenation patterns for 75 language(s) loaded.
 (IEEEtran.cls
@@ -419,8 +419,8 @@ Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)
 \c@LT@tables=\count123
 \c@LT@chunks=\count124
 \LT@p@ftn=\toks31
-) (CS444HW2_Writeup.aux)
-\openout1 = `CS444HW2_Writeup.aux'.
+) (Capstone.aux)
+\openout1 = `Capstone.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
 LaTeX Font Info:    ... okay on input line 24.
@@ -519,56 +519,46 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 24.
 LaTeX Info: Redefining \pageref on input line 24.
 LaTeX Info: Redefining \nameref on input line 24.
- (CS444HW2_Writeup.out) (CS444HW2_Writeup.out)
+ (Capstone.out) (Capstone.out)
 \@outlinefile=\write3
-\openout3 = `CS444HW2_Writeup.out'.
+\openout3 = `Capstone.out'.
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 34.
+ [1{C:/Users/mast3/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+LaTeX Font Info:    Try loading font information for U+msa on input line 35.
 
 ("C:\Users\mast3\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 34.
+LaTeX Font Info:    Try loading font information for U+msb on input line 35.
 ("C:\Users\mast3\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) (CS444HW2_Writeup.bbl)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 51.
- [1{C:/Users/mast3/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 51.
- (CS444HW2_Writeup.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 51.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 51.
-
-
-Package rerunfilecheck Warning: File `CS444HW2_Writeup.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `CS444HW2_Writeup.out':
-(rerunfilecheck)             Before: 30456D1DD157840F6F081F5998C27DA7;160
-(rerunfilecheck)             After:  975B3BE520B7CC67751D26E3AD67BE07;113.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 51.
+)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 47.
+[2]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 47.
+ (Capstone.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 47.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 47.
+Package rerunfilecheck Info: File `Capstone.out' has not changed.
+(rerunfilecheck)             Checksum: D79A69440B2E8DA8B4E8AD48B01F7D5B;181.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 47.
  ) 
 Here is how much of TeX's memory you used:
- 7427 strings out of 493305
- 113825 string characters out of 3129803
- 204890 words of memory out of 3000000
+ 7423 strings out of 493305
+ 113703 string characters out of 3129803
+ 203890 words of memory out of 3000000
  10888 multiletter control sequences out of 15000+200000
- 34688 words of font info for 70 fonts, out of 3000000 for 9000
+ 33581 words of font info for 69 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 28i,8n,28p,235b,321s stack positions out of 5000i,500n,10000p,200000b,50000s
-pdfTeX warning (dest): name{section*.4} has been referenced but does not exis
-t, replaced by a fixed one
-
-{C:/Users/mast3/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<
-C:/Users/mast3/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmsy10.pfb><C:/Users/mast3/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/t
-imes/utmb8a.pfb><C:/Users/mast3/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/u
-rw/times/utmr8a.pfb><C:/Users/mast3/AppData/Local/Programs/MiKTeX 2.9/fonts/typ
-e1/urw/times/utmri8a.pfb>
-Output written on CS444HW2_Writeup.pdf (1 page, 43139 bytes).
+ 28i,6n,28p,227b,321s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Users/mast3/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc
+}<C:/Users/mast3/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmsy10.pfb><C:/Users/mast3/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw
+/times/utmr8a.pfb><C:/Users/mast3/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
+/urw/times/utmri8a.pfb>
+Output written on Capstone.pdf (2 pages, 35412 bytes).
 PDF statistics:
- 46 PDF objects out of 1000 (max. 8388607)
+ 45 PDF objects out of 1000 (max. 8388607)
  8 named destinations out of 1000 (max. 500000)
  25 words of extra memory for PDF output out of 10000 (max. 10000000)
 
