@@ -1,12 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.3)  23 OCT 2018 14:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.3)  23 OCT 2018 14:38
 entering extended mode
 **./38_Requirements_Draft.tex
 (38_Requirements_Draft.tex
 LaTeX2e <2017-04-15>
 Babel <3.18> and hyphenation patterns for 75 language(s) loaded.
-
-("C:\Users\mast3\AppData\Local\Programs\MiKTeX 2.9\tex\latex\ieeetran\IEEEtran.
-cls"
+(IEEEtran.cls
 Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
 -- See the "IEEEtran_HOWTO" manual for usage information.
 -- http://www.michaelshell.org/tex/ieeetran/
@@ -339,9 +337,9 @@ LaTeX Font Info:    Font shape `OT1/phv/bx/sc' in size <11.04124> not available
 ] (38_Requirements_Draft.aux) ) 
 Here is how much of TeX's memory you used:
  2921 strings out of 493305
- 48724 string characters out of 3129803
- 112437 words of memory out of 3000000
- 6438 multiletter control sequences out of 15000+200000
+ 48601 string characters out of 3129803
+ 112463 words of memory out of 3000000
+ 6439 multiletter control sequences out of 15000+200000
  46370 words of font info for 97 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,5n,25p,290b,295s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -352,7 +350,7 @@ TeX 2.9/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Users/mast3/AppData/Local/Progr
 ams/MiKTeX 2.9/fonts/type1/urw/palatino/uplb8a.pfb><C:/Users/mast3/AppData/Loca
 l/Programs/MiKTeX 2.9/fonts/type1/urw/palatino/uplr8a.pfb><C:/Users/mast3/AppDa
 ta/Local/Programs/MiKTeX 2.9/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on 38_Requirements_Draft.pdf (3 pages, 63417 bytes).
+Output written on 38_Requirements_Draft.pdf (3 pages, 63491 bytes).
 PDF statistics:
  33 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
