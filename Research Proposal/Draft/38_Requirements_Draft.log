@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.3)  29 OCT 2018 12:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.3)  30 OCT 2018 14:16
 entering extended mode
 **./38_Requirements_Draft.tex
 (38_Requirements_Draft.tex
@@ -308,15 +308,12 @@ Package epstopdf Info: Source file: <coe_v_spot1.eps>
 (epstopdf)                    date: 2018-10-29 12:04:12
 (epstopdf)                    size: 631574 bytes
 (epstopdf)             Output file: <coe_v_spot1-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-10-29 12:09:12
+(epstopdf)                    size: 31231 bytes
 (epstopdf)             Command: <epstopdf --outfile=coe_v_spot1-eps-converted-t
 o.pdf coe_v_spot1.eps>
 (epstopdf)             \includegraphics on input line 41.
-runsystem(epstopdf --outfile=coe_v_spot1-eps-converted-to.pdf coe_v_spot1.eps).
-..executed (allowed).
-
-Package epstopdf Info: Result file: <coe_v_spot1-eps-converted-to.pdf>
-(epstopdf)                    date: 2018-10-29 12:09:12
-(epstopdf)                    size: 31231 bytes.
+Package epstopdf Info: Output file is already uptodate.
 <coe_v_spot1-eps-converted-to.pdf, id=1, 346.29375pt x 436.63126pt>
 File: coe_v_spot1-eps-converted-to.pdf Graphic file (type pdf)
 <use coe_v_spot1-eps-converted-to.pdf>
@@ -358,8 +355,8 @@ LaTeX Font Info:    Font shape `OT1/phv/bx/sc' in size <11.04124> not available
 (38_Requirements_Draft.aux) ) 
 Here is how much of TeX's memory you used:
  2939 strings out of 493305
- 48845 string characters out of 3129803
- 111449 words of memory out of 3000000
+ 48877 string characters out of 3129803
+ 111454 words of memory out of 3000000
  6443 multiletter control sequences out of 15000+200000
  46370 words of font info for 97 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -371,7 +368,7 @@ X 2.9/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Users/mast3/AppData/Local/Program
 s/MiKTeX 2.9/fonts/type1/urw/palatino/uplb8a.pfb><C:/Users/mast3/AppData/Local/
 Programs/MiKTeX 2.9/fonts/type1/urw/palatino/uplr8a.pfb><C:/Users/mast3/AppData
 /Local/Programs/MiKTeX 2.9/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on 38_Requirements_Draft.pdf (4 pages, 93305 bytes).
+Output written on 38_Requirements_Draft.pdf (4 pages, 92974 bytes).
 PDF statistics:
  47 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
