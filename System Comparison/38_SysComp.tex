@@ -87,6 +87,10 @@
     \subsection{Concept}
 
     \subsection{Implementation}
+   \indent  Oracle is an example of a database system that implements the shared-everything model. The data contained within the Oracle system is accessible to all the processing units without limitations \cite{OraclePEwODF}, meaning that the parallelism implemented within the Oracle system is not limited to the data access that an individual node would possess. Rather, all dispatchable agents associated with the database are capable of accessing all the data contents. \\
+
+\indent Oracle’s shared-everything architecture does not require data partitioning to enable parallelism by default; data is accessible from all processing units without limitations \cite{OraclePEwODF}. Parallelism within the Oracle system is implemented through dividing a query into smaller components called granules. Granules represent a fraction of a query, and can be assigned a specific block range in memory. These block-based granules are assigned a position within the memory or the storage of the Oracle system, and will do all actions within their block range. Partition-based granules leverage individual partitions of the database to further optimize query resolution speed. Individual granules are capable of processing alongside other granules, enabling parallel execution along the system. 
+
 
 	\section{Shared Nothing}
 	
