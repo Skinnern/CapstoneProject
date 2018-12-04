@@ -1,6 +1,7 @@
 \documentclass[onecolumn, draftclsnofoot,10pt, compsoc]{IEEEtran}
 \usepackage{graphicx}
 \usepackage{url}
+\graphicspath{ {./} }
 %\usepackage{setspace}
 
 \usepackage{geometry}
@@ -96,6 +97,8 @@ In contrast to shared-nothing environment, the main feature is that clusters are
 This is one of the solutions for parallel database system and when process huge data set. 
 To make clusters interactive, there are multiple ways of how clusters access data from other.
 
+\includegraphics{amyImage1}
+
 Above fig.1 is a basic diagram shows the different architecture between shared memory system and shared disk system. 
 In share memory system database, each node or process is working with the same memory. 
 If a node needs the calculation done by other node, it can access the updated data easily from the shared memory. 
@@ -128,21 +131,22 @@ Oracle is an example of a database system that implements the shared-everything 
 The data contained within the Oracle system is accessible to all the processing units without limitations \cite{OraclePEwODF}, meaning that the parallelism implemented within the Oracle system is not limited to the data access that an individual node would possess.
 Rather, all dispatchable agents associated with the database are capable of accessing all the data contents.
 
-Oracle’s shared-everything architecture does not require data partitioning to enable parallelism by default; data is accessible from all processing units without limitations \cite{OraclePEwODF}. 
+\indent Oracle’s shared-everything architecture does not require data partitioning to enable parallelism by default; data is accessible from all processing units without limitations \cite{OraclePEwODF}. 
 Parallelism within the Oracle system is implemented through dividing a query into smaller components called granules.
 Granules represent a fraction of a query, and can be assigned a specific block range in memory.
 These block-based granules are assigned a position within the memory or the storage of the Oracle system, and will do all actions within their block range.
 Partition-based granules leverage individual partitions of the database to further optimize query resolution speed.
 Individual granules are capable of processing alongside other granules, enabling parallel execution along the system. 
-\graphicspath{ {./ } }
 
-Upon resolving a task, a granule will need to report its result set to another agent. 
+\includegraphics{nickImage}
+
+\indent Upon resolving a task, a granule will need to report its result set to another agent. 
 The action it will take to complete this task is known as 'data redistribution', and it is a key component to many non-trivial parallel operations including parallel aggregations, joins and sorts \cite{OraclePEwODF}.
 The individual granule does not know the broader context of the operation the retrieved data will be used within, so it must pass the result set to a subsequent operation on the result set contents.
 The query coordinator will dispatch an agent to grab the result set from the previous granule, and assign the new agent a granule of work to process.
 This series of events is recursively performed until the end query result is reached.
 
-For further query optimization, Oracle is capable of operating on the same processing paradigm as a shared-nothing system.
+\indent For further query optimization, Oracle is capable of operating on the same processing paradigm as a shared-nothing system.
 If the Oracle partitioning feature is enabled, Oracle will assign each table a smaller result set, minimizing the amount of data that needs to be scanned. 
 Oracle claims that the partitioning system carries the exact same parallel processing capabilities as a shared-nothing system, however, Oracle is capable of implementing this partitioning without the restrictions of the fixed parallel access encompassed in the data layout \cite{OraclePEwODF}.  
 
