@@ -69,9 +69,7 @@
 		}
 		\begin{abstract}
 			% 6. Fill in your abstract    
-			This document is written using one sentence per line.
-			This allows you to have sensible diffs when you use \LaTeX with version control, as well as giving a quick visual test to see if sentences are too short/long.
-			If you have questions, ``The Not So Short Guide to LaTeX'' is a great resource (\url{https://tobi.oetiker.ch/lshort/lshort.pdf})
+			Hewlett Packard, Inc (henceforth HP Inc.) currently uses an Oracle database to store industrial IoT data gathered from large printing presses. The Big Data team is interested in moving this centralized database to a distributed system, with special interest in moving from the current “shared-everything” architecture to a “shared-nothing” architecture. From previous research done by the Big Data team, Cloudera’s Impala has been selected as the primary candidate for implementing the new system. To begin investigating the possible new systems, our team first needed to understand HP Inc’s current system. In the first half of this report, we present our research on shared-everything architectures and their specific implementation in Oracle databases. In the second half, we introduce shared-nothing architecture as a whole and its specific implementation in Cloudera Impala databases.
 		\end{abstract}     
 		%\end{singlespace}
 	\end{titlepage}
@@ -90,12 +88,33 @@
 
     \subsection{Implementation}
 
-
 	\section{Shared Nothing}
-
+	
     \subsection{Concept}
+    \indent A shared nothing architecture is a model in which the processors do not share any resources. Each node within the system has its own memory and disk storage, rather than sharing one or both with other processors. Each node would have a portion of the database’s stored data, and is the sole control on that portion of the data. The nodes connect through a network to coordinate actions by requesting information from each other. \\
+
+\indent Shared nothing architectures are primarily used for their easy and relatively cheap scalability. They can be built from commodity hardware, rather than requiring specialized and expensive parts to achieve high performance. One source estimated the cost of a single commodity node and a single specialized node at $700 and $10,000 \cite{HiPerf}. This source calculated that in order for specialized hardware to be as cost efficient, it must be at least 14 times as fast, which there is no indication of being true. \\
+
+\indent Shared nothing architectures are also not subject to the points of contention and bottlenecks that sharing architectures have, such as the need for multiple nodes to read and write to the same data. Rather than moving the data itself between processors, each node asks another node a question about the data it holds. That node returns an answer which the asking node uses to continue with its work, until the complete question - the user’s query - is answered \cite{DeWittFuture}. This reduction in data transfer means that a higher proportion of time is spent processing the questions, which is a much easier task to speed up. \\
+
+\indent Transactions also are free from the overhead of a sharing architecture. Each node is only responsible for the data it stores, and no other data \cite{GerardPP}. When insertions, updates, or deletions are required for a given piece of data, only the node holding that data is involved in the process. This effectively spreads out read and write operations across many nodes, removing a main point of contention for sharing architectures - the main method for handling hotspots recognized in \cite{BerkeleySN}. \\
+
+\indent While shared-nothing architectures are becoming more popular, there are still criticisms. Most obviously, the cost of implementing one may not be worthwhile for an organization which has an existing centralized system and does not expect a high rate of future growth. Shared nothing systems have also been criticised for needing the same tools for data redundancy and availability as shared disk architectures. Copies of the data are often stored on multiple nodes to reduce the likelihood of lost data, but this requires extra coordination to ensure all copies remain up to date \cite{HDFSArchitecture}. \\
+
+\indent There is also an additional level of network complexity and use required to connect all nodes so that they can effectively coordinate. While large amounts of data will not be transferred through the connecting network in ideal cases, complex operations such as joins can require a table to be sent across nodes. Joins are typically the most expensive operation in a query, and it is an unfortunate truth that shared nothing architectures do not always improve this expense. Each node must communicate remotely with other nodes in order to complete tasks that involve more than a small portion of the data, in contrast to shared-memory systems where processes can easily communicate using the main memory \cite{MuchAdo}. \\
+
+\indent Shared-nothing architectures also suffer from slightly less flexibility than sharing architectures. Processing for a given chunk of data must occur on the node where it is stored. If that node is under a disproportionate burden, the lack of sharing prevents those operations from being dynamically reallocated to a less burdened processor. \\
+
+\indent Despite these criticisms, shared-nothing is widely regarded as the superior architecture. There is additional hope for the system under consideration by our client - critics of the shared nothing architecture advocate instead for a hybrid architecture. The suggested structure of this architecture is an ‘inner layer’ of shared-nothing nodes, and an ‘outer layer’ of shared-disk nodes. This resembles very closely the system our client plans to implement \cite{MuchAdo}.\\
 
     \subsection{Implementation}
+    \indent Impala is an SQL engine that implements a shared-nothing, parallel processing architecture over Hadoop. Queries are fragmented and distributed across nodes in the system to correspond with the portion of data stored locally on individual nodes. The system was inspired by Google’s Dremel in that it uses columnar storage, executes SQL commands natively instead of building them on top of MapReduce jobs, and is specifically designed for distributed computing [1,4]. Impala takes it a step further and implements as pure of a shared-nothing architecture as it can. \\
+
+\indent An Impala system has three main components which work together to implement this shared-nothingness: the Impala daemon, the Statestore, and the Catalog daemon [3]. The impalad is the Impala daemon which runs on every node in the system. An impalad’s responsibilities include, but are not limited to, accepting initial queries, reading and writing data files, executing query fragments assigned to it, and transmitting intermediate query results back to the coordinator [2,3]. The coordinator is simply the first impalad to receive an initial (raw SQL) query, at which point it assumes the coordinator role by managing that query’s execution across all other nodes and the assembly of the final query result [2]. This avoids the need for a single node dedicated to coordinating all queries, since any impalad in the system could be assigned the initial query. Since an impalad instance runs on every machine in the system, this “allows Impala to take advantage of data locality”, where each node can have its own partition of the data locally in own memory without having to use network communication to read other nodes’ data [2]. \\
+
+\indent The StateStore further cements Impala as a shared-nothing system. Each node working independently raises the issue of how coordinators can stay up to date on the other nodes in the system, and how they can be alerted if a node has failed. An Impala cluster has a single daemon called a StateStore to push updates about the system to the nodes who need the information [2]. The StateStore maintains a table of topics, which is any information needed for query scheduling and execution [3]. Processes running on nodes contact the StateStore only once, at startup, to give it a list of topics it needs to stay updated on [2]. An important topic is the list of nodes in the system which are healthy and thus can accept work. For this topic, the StateStore monitors node health through the use of keepalive messages [2]. If a node goes offline (doesn’t respond to to the keepalive message), the StateStore broadcasts this change to the other impalads, so they do not assign work to an unreachable node [3]. \\
+
+\indent The Statestore also broadcasts changes in metadata with help from the Catalog daemon. Physically represented as the daemon process “catalogd”, the catalog daemon “pulls information from third-party metadata stores (for example, the Hive Metastore or the HDFS Namenode), and aggregates that information into an Impala-compatible catalog structure” [2]. This is to make integration with third-party storage systems easier, while also allowing users to import “Impala-specific information”, such as user-defined functions [2]. \\
 	
 \nocite{*}
 \bibliographystyle{IEEEtran}
