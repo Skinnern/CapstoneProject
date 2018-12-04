@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=latex 2016.3.16)  3 DEC 2018 15:58
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=latex 2016.3.16)  3 DEC 2018 16:39
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -274,7 +274,11 @@ Overfull \hbox (32.65475pt too wide) in paragraph at lines 258--270
 [] 
  []
 
-(./38_Fall_Progress_Report.bbl [6] [7]
+(./38_Fall_Progress_Report.bbl [6]
+Overfull \vbox (88.87419pt too high) has occurred while \output is active []
+
+
+[7]
 LaTeX Font Info:    Calculating math sizes for size <8.03> on input line 36.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8.03> on input line 36.
@@ -290,6 +294,6 @@ Here is how much of TeX's memory you used:
  5262 multiletter control sequences out of 15000+200000
  31658 words of font info for 79 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
- 26i,8n,19p,395b,352s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 26i,8n,19p,412b,352s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on 38_Fall_Progress_Report.dvi (10 pages, 33644 bytes).
+Output written on 38_Fall_Progress_Report.dvi (10 pages, 34180 bytes).
