@@ -97,7 +97,6 @@ In contrast to shared-nothing environment, the main feature is that clusters are
 This is one of the solutions for parallel database system and when process huge data set. 
 To make clusters interactive, there are multiple ways of how clusters access data from other.
 
-\includegraphics{amyImage1}
 
 Above fig.1 is a basic diagram shows the different architecture between shared memory system and shared disk system. 
 In share memory system database, each node or process is working with the same memory. 
@@ -138,7 +137,6 @@ These block-based granules are assigned a position within the memory or the stor
 Partition-based granules leverage individual partitions of the database to further optimize query resolution speed.
 Individual granules are capable of processing alongside other granules, enabling parallel execution along the system. 
 
-\includegraphics{nickImage}
 
 \indent Upon resolving a task, a granule will need to report its result set to another agent. 
 The action it will take to complete this task is known as 'data redistribution', and it is a key component to many non-trivial parallel operations including parallel aggregations, joins and sorts \cite{OraclePEwODF}.
