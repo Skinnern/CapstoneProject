@@ -20,7 +20,7 @@
 \def \CapstoneSponsorPerson{	Andy Weiss}
 
 % 2. Uncomment the appropriate line below so that the document type works
-\def \DocType{		Template
+\def \DocType{	System Comparison	
 	%Requirements Document
 	%Technology Review
 	%Design Document
@@ -91,9 +91,43 @@ In the second half, we introduce shared-nothing architecture as a whole and its 
 	\section{Shared Everything}
 
     \subsection{Concept}
+In a shared everything environment, all servers and workload can access to the same shared store.
+Meanwhile, they can read and write any portion of data they want easily.
+In contrast to shared-nothing environment, the main feature is that clusters are able to exchange data with other during computing.
+This is one of the solutions for parallel database system and when process huge data set. 
+To make clusters interactive, there are multiple ways of how clusters access data from other.
+
+\includegraphics{amyImage1}
+
+Above fig.1 is a basic diagram shows the different architecture between shared memory system and shared disk system. 
+In share memory system database, each node or process is working with the same memory. 
+If a node needs the calculation done by other node, it can access the updated data easily from the shared memory. 
+In shared storage system, all connected system share all disk. 
+Each cluster still has it own local memory and can access to disks through interconnection.
+
+Shared everything focuses on maximizing resource utilization \cite{ClaussenBestofBoth}. 
+Since data may be cached in multiple places and accessed by any node in the system at any time, data consistency and contention may become an issue.
+Although shared everything enables high scalability and performance, they are limited when lots of data are traveling through the interconnection at the same time. 
+However, shared disk provides fault tolerant ability, which mean if one node is fail then other node can complete the task as well.  
+
+The choice of data structure is and important decision that influence on the performance, stability and accessibility.
+Tabular data are inherently rectangular.
+More strictly, every row has the same set of column nodes and every record share same variables.
+However, nested data are inherent in tree layout.
+This structure can be expected to faster than tabular since it enables processes to read less data.
+Dremel and Solar are two successful distributed system that implement shared everything architecture with nested data structure.
+According to "Dremel: Interactive Analysis of Web-Scale Datasets," it claims that nested data structure help their shared disk system access data faster and reduce CPU cost due to cheaper compression \cite{Dremel}.
+On the other hand, Solar used the share everything architecture base on tree data set.
+They increase the performance and scalability by adding storage nodes that are used for data storage and read access \cite{zhu2018solar}.  
+
+  Oracle is a shared everything database.
+  Specially, Oracle uses data dictionary to store their metadata. 
+  Data dictionary is formed with tables and views, and is being access frequently by dictionary cache, where Oracle keeps data. 
+  The view in the data dictionary allows users to access and read data only.
+  The oracle server accesses these two locations in order to shares data for users access \cite{OracleDataDictionary}.
 
     \subsection{Implementation}
-\indent Oracle is an example of a database system that implements the shared-everything model.
+Oracle is an example of a database system that implements the shared-everything model.
 The data contained within the Oracle system is accessible to all the processing units without limitations \cite{OraclePEwODF}, meaning that the parallelism implemented within the Oracle system is not limited to the data access that an individual node would possess.
 Rather, all dispatchable agents associated with the database are capable of accessing all the data contents.
 
@@ -104,6 +138,8 @@ These block-based granules are assigned a position within the memory or the stor
 Partition-based granules leverage individual partitions of the database to further optimize query resolution speed.
 Individual granules are capable of processing alongside other granules, enabling parallel execution along the system. 
 
+\includegraphics{nickImage}
+
 \indent Upon resolving a task, a granule will need to report its result set to another agent. 
 The action it will take to complete this task is known as 'data redistribution', and it is a key component to many non-trivial parallel operations including parallel aggregations, joins and sorts \cite{OraclePEwODF}.
 The individual granule does not know the broader context of the operation the retrieved data will be used within, so it must pass the result set to a subsequent operation on the result set contents.
@@ -113,19 +149,6 @@ This series of events is recursively performed until the end query result is rea
 \indent For further query optimization, Oracle is capable of operating on the same processing paradigm as a shared-nothing system.
 If the Oracle partitioning feature is enabled, Oracle will assign each table a smaller result set, minimizing the amount of data that needs to be scanned. 
 Oracle claims that the partitioning system carries the exact same parallel processing capabilities as a shared-nothing system, however, Oracle is capable of implementing this partitioning without the restrictions of the fixed parallel access encompassed in the data layout \cite{OraclePEwODF}.  
-
-   \indent  Oracle is an example of a database system that implements the shared-everything model. The data contained within the Oracle system is accessible to all the processing units without limitations \cite{OraclePEwODF}, meaning that the parallelism implemented within the Oracle system is not limited to the data access that an individual node would possess. Rather, all dispatchable agents associated with the database are capable of accessing all the data contents. \\
-
-\indent Oracle’s shared-everything architecture does not require data partitioning to enable parallelism by default; data is accessible from all processing units without limitations \cite{OraclePEwODF}. Parallelism within the Oracle system is implemented through dividing a query into smaller components called granules. Granules represent a fraction of a query, and can be assigned a specific block range in memory. These block-based granules are assigned a position within the memory or the storage of the Oracle system, and will do all actions within their block range. Partition-based granules leverage individual partitions of the database to further optimize query resolution speed. Individual granules are capable of processing alongside other granules, enabling parallel execution along the system. 
-
-\includegraphics{nickImage}
-
-\indent (Granules Example, order of operations go from most indented to least indented. Table access being the first operations performed.)\\
-
-\indent Upon resolving a task, a granule will need to report its result set to another agent. The action it will take to complete this task is known as ‘data redistribution’, and it is a key component to many non-trivial parallel operations including parallel aggregations, joins and sorts \cite{OraclePEwODF}. The individual granule does not know the broader context of the operation the retrieved data will be used within, so it must pass the result set to a subsequent operation on the result set contents. The query coordinator will dispatch an agent to grab the result set from the previous granule, and assign the new agent a granule of work to process. This series of events is recursively performed until the end query result is reached. \\
-
-\indent For further query optimization, Oracle is capable of operating on the same processing paradigm as a shared-nothing system. If the Oracle partitioning feature is enabled, Oracle will assign each table a smaller result set, minimizing the amount of data that needs to be scanned. Oracle claims that the partitioning system carries the exact same parallel processing capabilities as a shared-nothing system \cite{OraclePEwODF}, however, Oracle is capable of implementing this partitioning without the restrictions of the fixed parallel access encompassed in the data layout \cite{OraclePEwODF}.  \\
-
 
 	\section{Shared Nothing}
     \subsection{Concept}
