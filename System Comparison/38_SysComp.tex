@@ -97,6 +97,10 @@ In contrast to shared-nothing environment, the main feature is that clusters are
 This is one of the solutions for parallel database system and when process huge data set. 
 To make clusters interactive, there are multiple ways of how clusters access data from other.
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\linewidth, height=4in, keepaspectratio]{amyImage1.eps}
+\end{figure}
 
 Above fig.1 is a basic diagram shows the different architecture between shared memory system and shared disk system. 
 In share memory system database, each node or process is working with the same memory. 
@@ -143,6 +147,11 @@ The action it will take to complete this task is known as 'data redistribution',
 The individual granule does not know the broader context of the operation the retrieved data will be used within, so it must pass the result set to a subsequent operation on the result set contents.
 The query coordinator will dispatch an agent to grab the result set from the previous granule, and assign the new agent a granule of work to process.
 This series of events is recursively performed until the end query result is reached.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=6in, height=4in, keepaspectratio]{nickImage.eps}
+\end{figure}
 
 \indent For further query optimization, Oracle is capable of operating on the same processing paradigm as a shared-nothing system.
 If the Oracle partitioning feature is enabled, Oracle will assign each table a smaller result set, minimizing the amount of data that needs to be scanned. 
