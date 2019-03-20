@@ -257,12 +257,6 @@ Although this paper was quite vague, it introduced us to criteria we can use to 
     Week 11 & Finals week & & Group system comparison paper, Progress update video and report \\
 \end{tabular}
 \section{Winter Term Work}
-Work this term has been divided roughly into two sections.
-The first half of the term was spent researching various topics through Impala documentation, source code, and other independent sources.
-The later part of the term has been focused on compiling the understanding gained from this research into a paper that will be our final deliverable.
-The outline of this paper is given below; summaries of the sections that have been addressed at this time are given in the Research Focus section.
-
-
 \subsection{Project Status}
 
 Work this term has been divided roughly into two sections.
@@ -316,6 +310,29 @@ The methods for creating both kinds of tables are discussed, as well as the mana
 Planned additions to this section are a discussion of analytic functions, which are heavily used by HP when handling their data.
 This section will seek to identify functions that are supported in Oracle’s SQL but not in HiveQL, as well as any differences in syntax or behavior across versions. 
 
+\subsubsection{File Formats}
+In this term, we looked into several file formats that used in Apache Hadoop, which are Avro, Parquet and Optimized Row Columnar (ORC).
+Each of these file formats is unique and has their own relative advantages and disadvantages.
+It is important to choose file format used in Impala table since file format has significant impacts on the performance.
+For example, some file formats enable compression that may affect size of data and consequently lead to I/O and CPU resources required to deserialize data.
+ 
+Parquet and ORC are column based file format, and Avro is row major file format.
+We found that Parquet is a good choice when you need to query a specific column with wide table, or work on some aggregation operations such as SUM() and AVG() that need to process most of the values in a column.
+Parquet table can also minimize I/O by reading less data and retrieve values from column quickly.
+ 
+ORC is an optimized version of RCFile.
+However, Impala does not support it.
+It makes improvement on the compression by using an encoder that handle different column data types.
+ORC also skips blocks of rows that are not needed in query and then indexing fewer files and reduce load.
+This is why ORC has the better compression than Avro and Parquet.
+ 
+Avro is a row major file format.
+Impala can query and create Avro tables, but not insert them. 
+Avro schemas are defined with JSON and so it stores data definition in JSON after creating Avro tables. 
+Currently, Avro tables do not support TIMESTAMP columns, but there are two functions that help to store time values. 
+For some reason, mismatch of values type may occured between Avro schema and column definition in the database.
+To solve this problem, Impala uses schema reconciliation to check mismatching number of columns.
+
 \subsubsection{Query Optimization}
 Through this term, we discovered that most query optimization hinges on the statistics of the data being queried.
 The number of rows in a dataset is particularly important, as this directly shows how much data needs to be processed.
@@ -328,16 +345,6 @@ An engineer can manually change table statistics to influence the query optimize
 An engineer can also include SQL hints within their queries to influence the query optimizer.
 Such hints are also available in Oracle systems, and the differences between the two systems’ SQL hint coverage is discussed in this section.  
 
-\subsubsection{File Formats}
-In this term, we looked into several file formats that used in Apache Hadoop, which are Avro, Parquet and Optimized Row Columnar (ORC). Each of these file formats is unique and has their own relative advantages and disadvantages. It is important to choose file format used in Impala table since file format has significant impacts on the performance. For example, some file formats enable compression that may affect size of data and consequently lead to I/O and CPU resources required to deserialize data.
- 
-Parquet and ORC are column based file format, and Avro is row major file format. We found that Parquet is a good choice when you need to query a specific column with wide table, or work on some aggregation operations such as SUM() and AVG() that need to process most of the values in a column. Parquet table can also minimize I/O by reading less data and retrieve values from column quickly.
- 
-ORC is an optimized version of RCFile. However, Impala does not support it. It makes improvement on the compression by using an encoder that handle different column data types. ORC also skips blocks of rows that are not needed in query and then indexing fewer files and reduce load. This is why ORC has the better compression than Avro and Parquet.
- 
-Avro is a row major file format. Impala can query and create Avro tables, but not insert them. Avro schemas are defined with JSON and so it stores data definition in JSON after creating Avro tables. Currently, Avro tables do not support TIMESTAMP columns, but there are two functions that help to store time values. For some reason, mismatch of values type may occured between Avro schema and column definition in the database. To solve this problem, Impala uses schema reconciliation to check mismatching number of columns.
-
-
 \subsection{Weekly Progress}
 \begin{tabular}{l | p{15 cm}}
     Week & Details  \\ \hline
@@ -348,7 +355,602 @@ Avro is a row major file format. Impala can query and create Avro tables, but no
     Week 5 & Nate and Andy gave us some help with our difficulties inserting images into the .tex file of our document. We resolved the issue by converting the images to .eps files. We reviewed the outline and section headings of our final paper, as well as elevator pitch drafts and poster ideas. We have had some difficulty coordinating the poster review, but it was scheduled for the following week.  \\
     Week 6 & Nathaniel Whitlock reviewed parts of our rough draft for our final paper. During this work meeting we researched into SQL differences and query optimization to better fill out those sections in the paper. Nathaniel also clarified our questions in regard to the paper’s audience and purpose, and so we planned to tailor the paper more towards HP’s engineers, who have some background on SQL and relational databases, and are coming from a background of working with Oracle systems. We also took part in the initial poster critiques with team 67. Both teams gave insightful and helpful comments on each other’s posters and we came out of the meeting with more ideas for what needs to be on our poster.  \\
     Week 7 & We reviewed our rough (alpha) draft of our final paper with Andy Weiss and Nathaniel Whitlock. They made suggestions, corrections, and answered our questions as they read through the paper. In particular, Andy was able to find a more detailed price range for the new system that we could use to demonstrate its cost efficiency when presenting to the public. Going forward we will follow their suggestions to fix inconsistencies and expand on certain sections.  \\
+    Week 8 & We reviewed the status of the paper, including the new changes since the previous week filling in sections that were identified as currently lacking. We addressed specific comments provided by Nate and Andy, and standardized some terminology across sections and authors. \\
+    Week 9 & We discussed the addition of the last new sections to be added. We reviewed the sections on manual metadata manipulation and analytic functions with Nate and Andy and discussed possible reorganizations for the document. Our meetings with the client and with professor were both cancelled. \\
+    Week 10 & We worked individually on filling out our sections of the paper and getting further clarification on details from Nate and Andy. We began work on our end of the term progress report and video. No meetings with client or Dr. Winters this week. \\
 \end{tabular}
+
+\subsection{Individual Contributions}
+Please note that formatting may not be properly in place for this section, due to limitations on the number of subheadings in LaTeX.
+\subsubsection{Nicholas Skinner}
+Impala Server Components
+
+The Impala Statestore
+
+The Impala Statestore broadcasts service messages to each node in the cluster.
+This is done to gain an understanding of the current state of the cluster, and any modifications that may need to be made.
+The messages that are broadcasted come in two distinct forms: Heartbeats, and Topic Updates.
+These message types contain information the Statestore requires to determine what actions it needs to take. 
+
+A Heartbeat within the HDFS is an interaction between a datanode, and its namenode intended to indicate presence.
+The heartbeat exists as a keepalive message to ensure that the datanode is still working within the cluster.
+After a user specified interval, if a number of heartbeats have not been received from the datanode, the namenode will consider the datanode to be out of service. 
+Blocks hosted by the out of service node will be marked as unavailable until the datanode is able to become active, or replicas of the available data blocks are created on other nodes.
+
+A Topic Update within the HDFS is a message containing information on new developments regarding a topic.
+The Topic update message will send and receive information from subscribers to specific topics. 
+An individual node is able to subscribe to modifications of topics of interest at start-up by providing a list of their topics of interest. 
+Subscribers of a specific topic will receive information on new entries, modified entries, and deletions. 
+If an individual node makes a change to a topic, it must wait for the Statestore to broadcast a new topic update before other nodes are able to receive the new modifications. 
+
+Statestore Command Line Arguments:
+
+The Impala Statestore possesses command line arguments that may alter the number of process threads dedicated to its service as well as the frequency that update messages or heartbeats are sent to the associated nodes.
+These arguments are to be appended to the command line startup.
+A command to start the Impala Statestore should look similar to the following statement:
+\begin{center}
+\begin{tabular}{ |c| }
+    \hline
+    \$ sudo service impala-state-store start \\
+    \hline
+\end{tabular}
+\end{center}
+
+If a restart is required, the following command should be used:
+
+\begin{center}
+\begin{tabular}{ |c| }
+    \hline
+    \$ sudo service impala-state-store restart \\
+    \hline
+\end{tabular}
+\end{center}
+
+Statestore Number of Threads
+
+\begin{center}
+\begin{tabular}{ |c| }
+    \hline
+    \$ -statestore\_num\_update\_threads 10 \\
+    \hline
+\end{tabular}
+\end{center}
+
+This command will modify the current number of threads that are dedicated to sending topic updates.
+Impala suggests to keep this at its default value of 10.
+
+Statestore Update Frequency
+
+\begin{center}
+\begin{tabular}{ |c| }
+    \hline
+    \$ -statestore\_update\_frequency\_ms 2000 \\
+    \hline
+\end{tabular}
+\end{center}
+
+The frequency, designated in milliseconds, that the Statestore attempts to send a Topic Update to each subscriber.
+By default Topic Updates occur every 2000 milliseconds (2 seconds).
+
+Heartbeat Number of Threads
+\begin{center}
+\begin{tabular}{ |c| }
+    \hline
+    \$ -statestore\_num\_heartbeat\_threads 10 \\
+    \hline
+\end{tabular}
+\end{center}
+
+This command will modify the number of threads that are dedicated to sending heartbeats.
+Impala claims that it is non-typical to modify this value 10.
+
+Heartbeat Frequency
+
+\begin{center}
+\begin{tabular}{ |c| }
+    \hline
+    \$ -statestore\_heartbeat\_frequency\_ms 2000 \\
+    \hline
+\end{tabular}
+\end{center}
+
+The frequency, designated in milliseconds, that the Statestore attempts to send a heartbeat to each subscriber.
+By default heartbeat messages occur every 1000 milliseconds (1 second).
+Impala claims that this value should be capable of supporting catalogs and clusters up to 150 nodes, beyond that you may be required to increase the heartbeat delay.
+
+
+
+The Impala Catalog Service
+
+The Impala Catalog Service is a component of the Impala server that relays metadata changes from Impala DDL and DML statements.
+This catalog service is physically represented by a daemon process ‘catalogd’ which interfaces with the Statestore component to collect metadata changes for each Impala node.
+Metadata changes are then collected into a unified database named the ‘Metastore’, which is intended to create a metadata directory to assist query resolution speeds. 
+The Impala Catalog Service exists to minimize need for manual refreshes of metadata store (The SQL commands REFRESH and INVALIDATE METADATA are still valid if not changing any DDL/DML directly). 
+Updates to the metastore performed by the catalogd daemon are performed every topic update. 
+
+Even with automatic metastore updates, the Impala Catalog Service is unable to detect new information and modifications to the dataset from specific methods of interfacing with the Impala ecosystem.
+The following actions will not cause a Metastore update:
+
+\begin{itemize}
+    \item DDL/DML statements done through HIVE.
+    \item Manipulating data files directly within the HDFS.
+    \item Any non-DDL/DML statement changes to the dataset.
+\end{itemize}
+
+In these instances, the Catalog Service is unable to detect changes within the system, and is unable to force a refresh on the Metastore.
+To resolve this, a manual refresh command must be executed against at least one node.
+
+Because requests by the catalogd daemon are passed through the Statestore daemon, it is recommended to run both services on the same host. This will reduce the network communication required between the systems.
+
+The catalogd daemon is a non-critical service, meaning it does not need to be active at all times.
+When an error prevents the catalogd service from carrying an action, no data loss occurs, though the metastore may not possess the latest metadata from each node. 
+If the daemon has not been run for an extended period, and a REFRESH command has not been executed, the data possessed by the metastore will be out of date, but is still accessible by virtue of being hosted through the statestore.
+
+Catalog Service Command Line Arguments:
+
+The catalog daemon comes with a select few arguments that can control how the service loads metadata. The service itself can be started by issuing the host machine the following command:
+\begin{center}
+\begin{tabular}{ |c| }
+    \hline
+    \$ sudo service impala-catalog start \\
+    \hline
+\end{tabular}
+\end{center}
+
+If a restart is required, the user is able to simply use the following command:
+
+\begin{center}
+\begin{tabular}{ |c| }
+    \hline
+    \$ sudo service impala-catalog restart \\
+    \hline
+\end{tabular}
+\end{center}
+
+Load In Background:
+
+The Catalog Service provides an argument option to either load all metadata before accepting a request, or asynchronously load data to enable sending requests as soon as the service is started.
+Asynchronous loading is the current default option in Impala, however, the other method can be enacted through the following argument:
+
+\begin{center}
+\begin{tabular}{ |c| }
+    \hline
+    \$ --load\_catalog\_in\_background=false \\
+    \hline
+\end{tabular}
+\end{center}
+The Metastore
+
+Impala keeps table definitions for each node within a centralized traditional database called the metastore.
+Impala also tracks additional metadata for the low-level characteristics of data files, including the physical locations of blocks within HDFS.
+Each Impala node caches all of this metadata to reuse for future queries against the same table. 
+The metastore collects metadata from each node in a cluster, and shares this collected data with all the nodes in the cluster.
+
+Metadata within the HDFS is capable of being automatically updated through the catalogd daemon if the modifications are limited to a DDL or a DML change. 
+The catalogd daemon relays the metadata changes from Impala SQL statements to all the Impala daemons in a cluster.
+For more information about the catalogd daemon, refer to the Impala Catalog Service section. 
+ 
+When needed, a manual metadata refresh can be performed by executing either the INVALIDATE METADATA or the REFRESH commands on a specified table.
+INVALIDATE METADATA [table\_name] will reload all metadata for the specified table, updating all facets of the system’s understanding of the current metadata composition.
+The REFRESH [table\_name] command will only update the metadata of the table with the locations of newly added blocks.
+REFRESH allows a lightweight update of the system, but if more extensive changes have been made, it is recommended to use INVALIDATE METADATA to avoid performance degradation.
+If a metadata update of the entire system is required, it can be performed by using INVALIDATE METADATA with no table suffix.
+This will cause the Impala system to tag each node to re-create metadata for all tables.
+
+\subsubsection{Caitlyn Cook}
+
+Query Coordination
+
+When a query is submitted to Impala, the node that receives it takes on the role of Query Coordinator (QC).
+Any node can take on this role, and multiple nodes can be performing this role simultaneously for different queries.
+Once a node takes on the role of QC for the query, it assigns work to known active nodes, including itself. 
+All nodes complete their work on the data that they have, and return their results to the coordinating node, which compiles them and returns the information to the user. 
+
+When possible, work is assigned so that data does not need to be transmitted from node to node. 
+Instead, the nodes holding that data are assigned the work needed to be done. 
+This improves execution time by taking advantage of data locality. 
+However, it is not always possible to execute in this way; for example, in the case of some joins, some table data must be transmitted between nodes. 
+
+While it is a supposed advantage to distributed systems that there is no single point of failure, it is important to note that only one node runs the statestored and catalogd. 
+Queries will not automatically fail should they be received while the node with these processes is down, but they will continue to work with outdated information, which may have negative consequences. 
+For more information on these processes, see the Impala Server Components section. 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\linewidth, height=4in, keepaspectratio]{qc.eps}
+\end{figure}
+
+While the default behavior is for all nodes to act as both coordinator and executor when needed, it is possible to configure Impala with dedicated coordinator nodes.
+This can reduce the amount of network traffic by reducing the amount of communication with the statestored required, as only the coordinating nodes need to be aware of the status of all other nodes.
+This can be useful when there is a large volume of highly concurrent queries, which generate a large volume of traffic.
+If this option is chosen, it is recommended that there is about 1 dedicated coordinator for every 50 dedicated executors. 
+\newline
+SQL Differences
+
+
+HiveQL conforms to the 2016 ANSI SQL standard. 
+Most behaviors are similar or identical between Oracle and HiveQL, but notable differences are discussed below. 
+
+Table Creation
+
+Internal and External Tables
+
+To create a table, use the CREATE TABLE statement. 
+By default, an internal table is created; an external table can be created by adding EXTERNAL to the statement. 
+
+When an internal table is created, Impala creates the necessary directory to hold the data in the default Impala workspace. 
+Data is then added to the table after creation using the INSERT or LOAD DATA statements. 
+If the table is renamed, Impala will move the files to a directory with the new name, even if the files were originally located outside of its workspace. 
+If the table is dropped, Impala will delete all data files in the table. 
+
+By contrast, an external table’s files are not directly managed by Impala. 
+When creating an external table you should supply a LOCATION statement that tells Impala where the files are stored. 
+If you do not supply a location, Impala will use the default location, as if it were an internal table, but will still not manage the files. 
+Impala will treat any files in this location as part of the table, and new data can be added through INSERT or LOAD DATA statements as with internal tables. 
+If the table is renamed or dropped, Impala will not modify the files at all, since it is not managing them. 
+Dropping the table will remove Impala’s association with it, but they may continue to be used by other Hadoop or HDFS components.
+Otherwise, an external is the same as an internal table. 
+It can contain any file type, and will behave the same as an internal table.
+
+Alternatively to creating a table and loading/inserting data, you can use a CREATE TABLE AS SELECT statement.
+In this case, omit the column definitions at the top of the statement, and add a SELECT statement beneath all options. 
+You may also choose to omit column definitions if you are loading a Parquet file, as they may be inferred from the file itself. 
+In this case, provide a LIKE PARQUET <path\_to\_file> statement where the column definitions would otherwise go. 
+
+Partitioning
+Unlike Oracle, there is only one kind of partitioning in Impala.
+Partitions are created for discrete values in specified partition columns.
+You cannot specify ranges or hashes to partition on. 
+If you would like to partition by one of these methods, you should create a column in the table such that each desired range or hash value is represented as a distinct value in the column (i.e. Jan 1 - 31 is rangecol=1, Feb 1 - 28 is rangecol=2, etc). 
+
+Partitioning is represented in the files as a nested directory structure. 
+Each value of the partition is a directory, which may contain more directories as additional partitions or data files at the lowest level of partitioning.
+Indexes are not supported in Impala; however, the nested structure of partitions means that they can simulate some of the performance gains of the index.
+
+Partitions are defined in the CREATE statement for the table.
+Once the table and its partitions have been created, it is not possible to add new data to existing partitions. 
+It is possible, however, to add new partitions entirely (ie adding a new year to a table partitioned by year). 
+If it is necessary to modify an existing partition, you may need to remove and recreate the partition with your changes added. 
+
+When partitioning on time values, you should separate the times you want to partition on as discussed above. 
+Because Impala partitions on discrete values of a column and not ranges, it cannot partition directly on a TIMESTAMP; doing so would specify a partition for each microsecond, and have no more than one value in each partition.
+\newline
+
+Analytic Functions
+The following analytic and aggregate functions are supported by Impala:
+\begin{center}
+\begin{tabular}{ |c|c| }
+    \hline
+    Analytic & Aggregate \\
+    \hline
+    AVG & APPX\_MEDIAN \\
+    COUNT & AVG \\
+    CUME\_DIST & COUNT \\
+    DENSE\_RANK & GROUP\_CONCAT \\
+    FIRST\_VALUE & MAX \\
+    LAG & MIN \\
+    LAST\_VALUE & NDV \\
+    LEAD & STDDEV,  \\
+    MAX & STDDEV\_SAMP \\
+    MIN & STDDEV\_POP \\
+    NTILE & SUM \\
+    PERCENT\_RANK & VARIANCE \\
+    ROW\_NUMBER & VARIANCE\_SAMP\\
+    SUM & VAR\_POP \\
+    \hline
+\end{tabular}
+\end{center}
+
+The AVG, COUNT, MAX, MIN, and SUM functions can be used as either analytic or aggregate functions.
+When these functions are provided an ORDER\_BY clause, they operate as analytic functions.
+If an ORDER\_BY clause is not supplied, they operate as aggregate functions. 
+
+The value of analytic functions is calculated for each row depending on the window of rows specified, and returned with the results of that row.
+If a windowing clause is not explicitly supplied, the assumed window is RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW; that is, the current row and all rows before it.
+This is the same default behavior as in Oracle. 
+
+In Impala, it is not possible to select a window of a variable size using the RANGE BETWEEN statement.
+You may only select unbounded either preceding, following, or both.
+It is not possible to range between a specific value such as time, for example. 
+You may select a specific number of rows using the ROWS BETWEEN, for example to calculate a moving average.
+
+\subsubsection{Iliana Javier}
+Query Optimization
+\newline
+\newline
+The Impala query planner chooses optimizations based on the available table and column statistics.
+A heavy emphasis is placed on the size and number of rows that will be involved at each stage of processing, as well as how data is distributed across nodes.
+Impala uses this information to help parallelize and distribute the work for a query in the most efficient manner calculated by the query optimizer.
+
+Query optimizations can also be influenced manually by manipulating table statistics and by including SQL hints in the query itself.
+\newline
+\newline
+
+Statistics
+
+The Impala query planner can use statistics about entire tables as well as individual partitions in its decision process.
+These statistics are stored in the metadata store.
+(See The Impala Catalog Service section for more details about the metadata store.)  
+
+To calculate statistics for a given table, run the COMPUTE STATS command. Computed statistics can be viewed using the SHOW TABLE STATS command:
+\begin{center}
+\begin{tabular}{ |c| }
+    \hline
+    COMPUTE STATS table\_name; \\
+    SHOW TABLE STATS table\_name; \\
+    \hline
+\end{tabular}
+\end{center}
+
+For unpartitioned tables, SHOW TABLE STATS results in a single row summarizing the entire table, with columns representing the number of rows, number of files, size, bytes cached, cache replication, file format, if incremental statistics are available (covered later in this section), and the physical location of the table in memory.
+In partitioned tables, this results in a similar table, except each row now represents a different partition. 
+Columns in this table represent the number of rows, number of files, etc for each particular partition. 
+The final row in this table represents the total table statistics, as if the table were unpartitioned. 
+If a statistic has not been calculated or is unavailable, the value -1 is used as a placeholder.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\linewidth, height=4in, keepaspectratio]{StatFig1.eps}
+\end{figure}
+
+In addition to whole table statistics, statistics gathered on a by-column basis are also useful for query optimization.
+“This technique is most valuable for columns compared across tables in JOIN queries, to help estimate how many rows the query will retrieve from each table.”
+The COMPUTE STATS command computes column statistics as well as full table statistics.
+Column statistics can be seen using the SHOW COLUMN STATS command. 
+
+\begin{center}
+\begin{tabular}{ |c| }
+    \hline
+    SHOW COLUMN STATS table\_name; \\
+    \hline
+\end{tabular}
+\end{center}
+
+Unlike table statistics, partitioning does not affect column statistic gathering, because column statistics are only calculated for the entire table, not individual partitions.
+However, an additional kind of statistics, called Incremental Statistics, can be gathered for partitioned tables. 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\linewidth, height=4in, keepaspectratio]{ili0.eps}
+\end{figure}
+
+When you compute incremental statistics, statistics are only gathered for partitions that do not yet have incremental statistics. 
+This way, statistics are only computed for newly added partitions, instead of for the entire table. 
+This keeps statistics up to date without incurring the overhead of reprocessing the entire table each time data is added. 
+They can be computed with the command:
+\begin{center}
+\begin{tabular}{ |c| }
+    \hline
+    COMPUTE INCREMENTAL STATS table\_name [Partition key]; \\
+    \hline
+\end{tabular}
+\end{center}
+Running the above command without a specified partition causes incremental stats to be computed for all partitions currently without incremental stats.
+If it is the first time is it run, it will compute stats for the whole table. 
+However, all future runs will only compute stats for new partitions. 
+Due to this, computing incremental stats will take more time than the regular COMPUTE STATS command for the same volume of data, and so should not be used for regularly updating entire tables worth of statistics. 
+Computing incremental stats also uses some memory in the catalogd process-- about 400 bytes of overhead memory for each column in a partition.
+This memory is reserved in the catalogd daemon, the statestored daemon, and in each instance of the impalad daemon.
+
+To maintain accurate statistics for each table, run your chosen COMPUTE STATS command every time new data is loaded into a table, and after the amount of data in a table is changed significantly, such as from an INSERT, add PARTITION, or LOAD DATA command. 
+\newline
+\newline
+
+Manual Statistic Manipulation
+
+There are many cases where manually manipulating table and column statistics is useful, including but not limited to:
+\begin{enumerate}
+    \item When running a full COMPUTE STATS command is not time efficient
+    \item When the current metadata causes the Impala optimizer to choose an inefficient JOIN operation
+    \item When adding data to a table which has less columns than the data 
+    \item When importing a new table with which you wish to use the statistics of an existing table instead of computing new statistics
+\end{enumerate}
+
+In such cases, the metadata where table statistics are stored can be changed using an ALTER TABLE command. 
+
+\begin{center}
+\begin{tabular}{ |c| }
+    \hline
+    NOTE: Most ALTER TABLE commands effect table and column metadata ONLY. \\
+    Commands do not affect the underlying datafiles. \\
+    \hline
+\end{tabular}
+\end{center}
+
+The most useful metadata to change will be the number of rows contained in a table. You can change the number of rows by table and by partition.
+In the below example, we first set a table named table\_name’s number of rows to be 100, then we set a specific partition of table\_name, partitionP (partitioned based on ‘year’ and ‘month’) , number of rows to be 5. 
+Remember, the ALTER TABLE command does not change the actual data,  just the metadata store. 
+The datafile table\_name is stored in will still have its original number of rows after the command is run.
+
+\begin{center}
+\begin{tabular}{ |c| }
+    \hline
+    -- change the numRows property for whole table \\
+    ALTER TABLE table\_name SET tblproperties( 'numRows' = '100', \\ 'STATS\_GENERATED\_VIA\_STATS\_TASK'='true'); \\
+
+    -- change the numRows property for the partition \\
+    ALTER TABLE table\_name partition(year=2009, month=4) \\
+    SET tblproperties ('numRows'='5', 'STATS\_GENERATED\_VIA\_STATS\_TASK'='true'); \\
+    \hline
+\end{tabular}
+\end{center}
+
+In CDH 5.8 / Impala 2.6 and higher, you can append commands to ALTER TABLE to manipulate the statistic values of a specific column.
+You can only set statistic values for the entire table’s columns. 
+As of the writing of this paper,  you cannot set column statistics by partition.
+You also can only alter statistic values for one column per command.
+If you wish to set statistics for multiple columns, this must be done in separate commands. 
+
+Changing statistics requires use of case-insensitive symbolic names for each statistics:
+\begin{center}
+\begin{tabular}{ |c|c| }
+    \hline
+    Statistic Name & Symbolic Name \\
+    \hline
+    Number of Distinct Values & numDVs \\ 
+    \hline
+    Average Size of Data & avgSize \\
+    \hline
+    Maximum Size of Data & maxSize \\
+    \hline
+\end{tabular}
+\end{center}
+
+To change these statistics using the SET COLUMN STATS command, both the symbolic (key) names and their new values must be quoted as in the examples below.
+
+\begin{center}
+    \begin{tabular}{|c|}
+    \hline
+    -- Create table with 1 column \\
+    CREATE TABLE t1 (x int); \\
+    INSERT INTO t1 VALUES (1), (2); \\ 
+
+    -- Alter table to contain 2 more columns, insert data with 3 columns \\ 
+    ALTER TABLE  t1 ADD COLUMNS (s string, t timestamp); \\
+    INSERT INTO t1 VALUES (3, 'three', now()); \\
+
+    -- Alter table to contain 1 more column, insert data with 4 columns \\
+    ALTER TABLE t1 ADD COLUMNS (b boolean); \\
+    INSERT INTO t1 VALUES (4, 'four', now(), true); \\
+
+    -- All rows which existed before a column was added contain NULL for those columns \\
+    SELECT * FROM t1; \\
+    \hline
+    \end{tabular}
+\end{center}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[keepaspectratio]{ili1.eps}
+\end{figure}
+
+\begin{center}
+    \begin{tabular}{|c|}
+    \hline
+-- Drop column b, safe\\
+ALTER TABLE t1 DROP COLUMN b;\\
+SELECT * FROM t1;\\
+    \hline
+    \end{tabular}
+\end{center}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[keepaspectratio]{ili2.eps}
+\end{figure}
+\begin{center}
+    \begin{tabular}{|c|}
+    \hline
+-- Drop inner column s, unsafe \\
+-- Notice how Impala still reads the first and second columns from the datafile \\
+-- Data from the former column s is now interpreted as data for column t \\
+-- Depending on the underlying datafile, this could induce a conversion error,
+-- because s’s datatype was Strings, \\
+-- while t’s datatype is Timestamps \\
+ALTER TABLE t1 DROP COLUMN s;\\
+SELECT * FROM t1;\\
+    \hline
+    \end{tabular}
+\end{center}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[keepaspectratio]{ili3.eps}
+\end{figure}
+
+SQL Hints 
+
+Impala supports SQL hint inclusion in queries with a similar syntax to SQL hints in Oracle systems.
+Hints are suggestions or directives sent to the query optimizer to change its normal decision making process. 
+They are most often used for resource-intensive queries--  such as JOINs between large tables where data is located across several nodes-- where an inefficient query plan can cause resource hogging and slow downs. 
+
+Hints are specified in comments, using either  /* */ or -- notation, with a + symbol added before the hint name.
+For example, the below code snippets showing JOIN hints are equivalent:
+\begin{center}
+\begin{tabular}{ |c| }
+    \hline
+    SELECT STRAIGHT\_JOIN clause FROM \\
+    table\_Name1 \\
+    JOIN  /* +SHUFFLE | BROADCAST */ \\
+    table\_Name2; \\
+    ------------------------------------ \\
+    SELECT STRAIGHT\_JOIN clause FROM \\
+    table\_Name1 \\
+    JOIN  -- +SHUFFLE | BROADCAST \\
+    table\_Name2;     \\
+    \hline
+\end{tabular}
+\end{center}
+
+The SHUFFLE and BROADCAST hints change the execution of join queries.
+Other types of queries that support sql hints are INSERT-SELECT, CREATE TABLE AS SELECT.
+
+The main JOIN sql hints are SHUFFLE leads to a “partitioned” join strategy, which divides up the corresponding rows from both tables and sends those subsets of the rows to other nodes for processing.
+It is recommended when you are joining two large tables of relatively the same size, both of which have table statistics computed.
+In contrast, BROADCAST sends the entire right-hand table to all nodes involved in processing the join.
+It is the default join type used when statistics are unavailable, but is otherwise only recommended when joining a table with a significantly smaller right-hand table. 
+
+\subsubsection{Amy Tang}
+File Formats
+
+The choice of data structure is an important decision that influences the performance, stability and accessibility.
+Tabular data are inherently rectangular.
+More strictly, every row has the same set of column nodes and every record share same variables.
+In contrast, columnar storage stores data in columns.
+The database can then access the data more precisely and prevent from scanning the unwanted data in row.
+This structure can efficiently write and read data from storage disk.
+Dremel and Solar are two successful distributed system that implement shared everything architecture with columnar data structure.
+According to the Dremel paper, it claims that columnar- nested data structure help their shared disk system access data faster and reduce CPU cost due to cheaper compression \cite{Dremel}.
+On the other hand, Solar used the share everything architecture base on tree data set.
+They increase the performance and scalability by adding storage nodes that are used for data storage and read access \cite{zhu2018solar}.  
+
+Impala supports several file formats that used in Apache Hadoop.
+Impala can also load and query data from different files produced by Pig or Hive.
+It is important to choose file format used in Impala table since file format has significant impacts on the performance.
+For example, some file formats enable compression that may affect size of data and consequently lead to I/O and CPU resources required to deserialize data.
+With this advantage, it can limit the query performance since querying often involves decompressing data.
+To reduce the data transfer time from disk to memory, compressing data can bring a smaller number of data to being processed.
+Some file formats are structured, which included metadata and built-in compression.
+File formats supported in Impala are: Parquet, Avro, Text, RCFile, and SequenceFile.
+On the other hand Avro , Parquet and Optimized Row Columnar (ORC) are three optimized file formats that used in Hadoop clusters.
+Each of these file formats are unique and have their own relative advantages and disadvantages.  
+
+Parquet
+
+Parquet is a column-oriented file format. In contrast to row-oriented approach, it is more efficient for storage and performance. The values of each columns are organized and adjacent, so that it enables better compression. Since that, Parquet is a good choice when you need to query a specific column with wide table, or work on some aggregation operations such as SUM() and AVG() that need to process most of the values in a column. Parquet table can minimize I/O by reading less data and retrieve values from column quickly, and thus improve the performance because the I/O cost may strongly  influenced by the number of columns needed to be processed. On the other hand, some complex types such as ARRAY, STRUCT and MAP are currently supported only by the Parquet file format. 
+
+When you try to load data that is already in the Impala or Hive table into Parquet table, even if the data is in a different file format or partitioning scheme, you can easily use the Impala INSERT...SELECT syntax.
+The block size is the number of segments which hold columns entries in the Parquet file. 
+For Parquet table, INSERT statement  requires space in the HDFS to write one block, and its default block size is 1 GB.
+If the HDFS does not have enough space, an INSERT might fail.
+When the system fail to INSERT into a partitioned table due to lack of the capacity, you can use hint keyword [SHUFFLE] or [NOSHUFFLE] (including the square brackets) before the SELECT keyword and after the PARTITION clause.
+[SHUFFLE] reduces overall resource usage by select the query plan that has the minimized number of files being written into HDFS.
+[NOSHUFFLE] may bring to an insertion failure as well because it select a faster query plan and sometime create large number of small data, so it is not recommended.
+Impala will choose use or not to use the hint depends on the number of values in columns and the number of nodes that going to be process in the INSERT operation. 
+
+Avro
+
+Avro is a row major file format. 
+Impala can query and create Avro tables, but not insert to them. 
+For insertion, you can use Hive to accomplish and switch back to Impala.
+LOAD DATA can be used in both Avro and Impala if there already have Avro data file.
+Impala can move it to the Avro table but not create new Avro data file.
+Avro schemas are defined with JSON and so it stores data definition in JSON after creating Avro tables.
+Currently, Avro tables does not support TIMESTAMP columns.
+There are two functions that help to store time values: UNIX\_TIMESTAMP() or EXTRACT(). UNIX\_TIMESTAMP() convert the STRING type of values into BIGINT type, and EXTRACT() create separate columns for date and time fields.
+
+For some reason, mismatch of values type may occured between Avro schema and column definition in the database.
+To solve this problem, Impala uses schema reconciliation to check mismatching number of columns.
+Impala will choose to use the definition in Avro schema when there is mismatch in number of column, column name and column type.
+For the restriction mentioned above, a TIMESTAMP definition in Impala maps to Avro STRING, which is a representation in the Avro schema.
+Moreover, Avro supports schema evolution to handle old and new schema. Meanwhile, people can work with different version of schema at the same time.
+
+ORC
+
+Optimized Row Columnar (ORC) stores data in column format.
+To be more specific, it stores collections of rows data into a columnar layout. This enables parallel processing for row collections.
+Each row data is called stripe. In a stripe, it contain index data, row data that is used in table scan and stripe footer.
+At the end of the file has file footer and postscript to store some information such as numbers of rows, compression parameter and column-level aggregate min, max, sum and count. 
+
+
 
 \nocite{*}
 \bibliographystyle{IEEEtran}
