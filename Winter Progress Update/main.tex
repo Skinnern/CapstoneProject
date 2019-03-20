@@ -328,6 +328,16 @@ An engineer can manually change table statistics to influence the query optimize
 An engineer can also include SQL hints within their queries to influence the query optimizer.
 Such hints are also available in Oracle systems, and the differences between the two systems’ SQL hint coverage is discussed in this section.  
 
+\subsubsection{File Formats}
+In this term, we looked into several file formats that used in Apache Hadoop, which are Avro, Parquet and Optimized Row Columnar (ORC). Each of these file formats is unique and has their own relative advantages and disadvantages. It is important to choose file format used in Impala table since file format has significant impacts on the performance. For example, some file formats enable compression that may affect size of data and consequently lead to I/O and CPU resources required to deserialize data.
+ 
+Parquet and ORC are column based file format, and Avro is row major file format. We found that Parquet is a good choice when you need to query a specific column with wide table, or work on some aggregation operations such as SUM() and AVG() that need to process most of the values in a column. Parquet table can also minimize I/O by reading less data and retrieve values from column quickly.
+ 
+ORC is an optimized version of RCFile. However, Impala does not support it. It makes improvement on the compression by using an encoder that handle different column data types. ORC also skips blocks of rows that are not needed in query and then indexing fewer files and reduce load. This is why ORC has the better compression than Avro and Parquet.
+ 
+Avro is a row major file format. Impala can query and create Avro tables, but not insert them. Avro schemas are defined with JSON and so it stores data definition in JSON after creating Avro tables. Currently, Avro tables do not support TIMESTAMP columns, but there are two functions that help to store time values. For some reason, mismatch of values type may occured between Avro schema and column definition in the database. To solve this problem, Impala uses schema reconciliation to check mismatching number of columns.
+
+
 \subsection{Weekly Progress}
 \begin{tabular}{l | p{15 cm}}
     Week & Details  \\ \hline
