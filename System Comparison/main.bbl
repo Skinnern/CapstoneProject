@@ -73,6 +73,11 @@ M.~Kornacker, A.~Behm, V.~Bittorf, T.~Bobrovytsk, C.~Ching, A.~Choi,
   D.~Tsirogiannis, S.~Wanderman-Milne, and M.~Yoder, ``Impala: A modern,
   open-source sql engine for hadoop.''
 
+\bibitem{IncrImp}
+``Incredible impala,''
+  \url{https://www.slideshare.net/gwenshap/incredible-impala}, accessed:
+  2019-04-15.
+
 \bibitem{OracleETEP}
 \emph{The Oracle Optimizer - Explain the Explain Plan}, Oracle, April 2017.
 

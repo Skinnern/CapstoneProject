@@ -1,6 +1,6 @@
 This is BibTeX, Version 0.99d (TeX Live 2013)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
-The top-level auxiliary file: 38_SysComp.aux
+The top-level auxiliary file: main.aux
 The style file: IEEEtran.bst
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
@@ -15,45 +15,45 @@ Warning--empty booktitle in Impala
 Warning--empty year in Impala
 
 Done.
-You've used 17 entries,
+You've used 18 entries,
             4087 wiz_defined-function locations,
-            926 strings with 10019 characters,
-and the built_in function-call counts, 9888 in all, are:
-= -- 737
-> -- 274
+            931 strings with 10117 characters,
+and the built_in function-call counts, 10200 in all, are:
+= -- 760
+> -- 275
 < -- 57
-+ -- 145
++ -- 146
 - -- 55
-* -- 451
-:= -- 1509
-add.period$ -- 29
-call.type$ -- 17
-change.case$ -- 11
+* -- 460
+:= -- 1558
+add.period$ -- 31
+call.type$ -- 18
+change.case$ -- 13
 chr.to.int$ -- 123
-cite$ -- 19
-duplicate$ -- 759
-empty$ -- 828
+cite$ -- 20
+duplicate$ -- 790
+empty$ -- 863
 format.name$ -- 63
-if$ -- 2269
+if$ -- 2341
 int.to.chr$ -- 0
-int.to.str$ -- 17
-missing$ -- 158
-newline$ -- 76
+int.to.str$ -- 18
+missing$ -- 165
+newline$ -- 79
 num.names$ -- 12
-pop$ -- 388
+pop$ -- 410
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 758
+skip$ -- 783
 stack$ -- 0
-substring$ -- 298
-swap$ -- 572
+substring$ -- 301
+swap$ -- 587
 text.length$ -- 16
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 17
+type$ -- 18
 warning$ -- 2
 while$ -- 35
-width$ -- 19
-write$ -- 166
+width$ -- 20
+write$ -- 173
 (There were 2 warnings)
