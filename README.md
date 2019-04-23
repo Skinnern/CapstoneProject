@@ -2,7 +2,7 @@
 This is the working repository for Capstone Project Group 38, Team ADDAX. The project is focused on investigating functionality of the Impala distributed system, and providing information on how the system is comparable to the established Oracle platform.
 
 ## Project Purpose
-HP Inc. is searching for alternatives to their established Oracle database. After some deliniation, Apache Impala has been chosed as an alternative platform to shift towards. Andy Weiss and Nathaniel Whitlock have tasked our team with looking into aspects of the Impala distributed system, and analyzing how the platform compares to their current Oracle environment. The final research document produced should be readable by an established HP Inc. Oracle database user, and should provide context on differences they may encounter when exploring the new system. 
+HP Inc. is searching for alternatives to their established Oracle database. After some deliberation, Apache Impala has been chosen as an alternative platform to shift towards. Andy Weiss and Nathaniel Whitlock have tasked our team with looking into aspects of the Impala distributed system, and analyzing how the platform compares to their current Oracle environment. The final research document produced should be readable by an established HP Inc. Oracle database user, and should provide context on differences they may encounter when exploring the new system. 
 
 ## Team Members
 - Amy Tang
