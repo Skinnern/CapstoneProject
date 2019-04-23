@@ -15,7 +15,7 @@ HP Inc. is searching for alternatives to their established Oracle database. Afte
   - Skinnern@oregonstate.edu
 
 ## Topics Covered
-Through the term, the sponsor guided topics covered, and the depth that the topic should be covered. Upon finalizing the paper, the sections that were covered were:
+Through the term, the sponsor guided topics covered, and the depth that the topic should be covered. Upon finalizing the topics for the paper, the sections that were covered were:
 - Query Coordination
 - Explain Plans
 - Impala Server Components
